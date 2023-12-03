@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /*
 ---FIRST PART---
 The Elf would first like to know which games would have been possible if the bag
@@ -18,10 +22,8 @@ set of cubes in game 1 is 48. In games 2-5 it was 12, 1560, 630, and 36, respect
 powers produces the sum 2286.
 
 For each game, find the minimum set of cubes that must have been present.
-What is the sum of the power of these sets? */
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+What is the sum of the power of these sets?
+*/
 
 public class day2 {
 	private static final int RED = 12;

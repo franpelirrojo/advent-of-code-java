@@ -11,6 +11,7 @@ can be found by combining the first digit and the last digit (in that order) to 
 Your calculation isn't quite right. It looks like some of the digits are actually spelled out with letters: one,
 two, three, four, five, six, seven, eight, and nine also count as valid "digits".
 */
+
 public class day1 {
 	public static void firstPart() {
 		BufferedReader reader;
@@ -39,7 +40,6 @@ public class day1 {
 						}
 					}
 				}
-
 
 				if (second){
 					sum += (start * 10) + end;
