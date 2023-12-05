@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Day4 {
 	/*
@@ -14,38 +15,41 @@ public class Day4 {
 		public Tree(HashMap<Integer, Integer> pointers) {
 			Node.setPointers(pointers);
 			for (int k = 1; k < pointers.size(); k++){
-				if (pointers.get(k) != 0){
 					Node node = new Node(k, pointers.get(k)); //build the next node
-					node.setParent(root);
 					root.addChild(node);
-				}
 			}
 		}
 
 		public int partTwo(){
-			root.getChieldsValues().forEach((k, v) -> System.out.println(k + ": " + v));
-			return 0;
+			int cardSum = 0;
+			HashMap<Integer, Integer> rootMap = root.getChieldsValues();
+			for (Integer key : rootMap.keySet()){
+				cardSum += rootMap.get(key);
+			}
+
+			return cardSum;
 		}
 	}
 
 	class Node {
 		private int value;
-		private Node parent;
-		private ArrayList<Node> chields = new ArrayList<>();
+		private ArrayList<Node> chields;
 		private static HashMap<Integer, Integer> pointers;
 
 		public Node(int value){
 			this.value = value;
+			chields =new ArrayList<>();
 		}
 
 		public Node(int value, int connections) {
 			this.value = value;
+			Node child;
 
-			for (int k = value + 1; k <= value + connections; k++){ //build the next node
-				if (!pointers.get(k).equals(0)){
-					Node chield = new Node(k, pointers.get(k));
-					chield.setParent(this);
-					addChild(chield);
+			if (connections != 0){
+				chields = new ArrayList<>();
+				for (int k = value + 1; k <= value + connections; k++){ //build the next node
+					 child = new Node(k, pointers.get(k));
+					 addChild(child);
 				}
 			}
 		}
@@ -55,20 +59,22 @@ public class Day4 {
 		}
 
 		public HashMap<Integer, Integer> getChieldsValues() {
-			HashMap<Integer, Integer> values = new HashMap<>();
-			if (!chields.isEmpty()){
+			HashMap<Integer, Integer> valuesSum = new HashMap<>();
+			if (chields != null){
 				for (Node child : chields){
 					HashMap<Integer, Integer> childValues = child.getChieldsValues();
 					childValues.forEach((k, v) ->{
-						if (values.containsKey(k)){
-							values.put(k, values.get(k) + v);
+						if (valuesSum.containsKey(k)){
+							valuesSum.put(k, valuesSum.get(k) + v);
+						}else {
+							valuesSum.put(k, v);
 						}
 					});
 				}
 			}
 
-			values.put(getValue(), values.get(getValue()) == null ? 1 : values.get(getValue()) + 1);
-			return values;
+			valuesSum.put(getValue(), valuesSum.get(getValue()) == null ? 1 : valuesSum.get(getValue()) + 1);
+			return valuesSum;
 		}
 
 		public void addChild(Node node){
@@ -77,10 +83,6 @@ public class Day4 {
 
 		public static void setPointers(HashMap<Integer, Integer> pointers) {
 			Node.pointers = pointers;
-		}
-
-		public void setParent(Node parent) {
-			this.parent = parent;
 		}
 	}
 
@@ -127,9 +129,10 @@ public class Day4 {
 			card++;
 		}
 
-		Tree tree = new Tree(pointers);
-		System.out.println(tree.partTwo());
+		Tree tree = new Tree(pointers); //PART TWO
+
 		System.out.println(result);
+		System.out.println(tree.partTwo()); //PART TWO
 	}
 
 	public static void main(String[] args) throws IOException {
