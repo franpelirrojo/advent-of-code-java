@@ -4,7 +4,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class day3 {
+/*
+---FIRST PART---
+The engine schematic (your puzzle input) consists of a visual representation of the engine.
+There are lots of numbers and symbols you don't really understand, but apparently any number
+adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum.
+(Periods (.) do not count as a symbol.)
+
+In this schematic, two numbers are not part numbers because they are not adjacent to a symbol:
+114 (top right) and 58 (middle right). Every other number is adjacent to a symbol and so is a
+part number; their sum is 4361.
+Of course, the actual engine schematic is much larger. What is the sum of all of the
+part numbers in the engine schematic?
+---SECOND PART---
+The missing part wasn't the only issue - one of the gears in the engine is wrong.
+A gear is any * symbol that is adjacent to exactly two part numbers. Its gear ratio
+is the result of multiplying those two numbers together. This time, you need to
+find the gear ratio of every gear and add them all up so that the engineer can
+figure out which gear needs to be replaced. What is the sum of all of
+the gear ratios in your engine schematic?
+ */
+
+public class Day3 {
 	public static ArrayList<Integer> parseNumber(ArrayList<int[]> numbers,
 											   ArrayList<ArrayList<Integer>> numberList,
 											   ArrayList<ArrayList<int[]>> numberPosition){

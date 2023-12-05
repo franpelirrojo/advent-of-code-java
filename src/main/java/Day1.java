@@ -12,7 +12,7 @@ Your calculation isn't quite right. It looks like some of the digits are actuall
 two, three, four, five, six, seven, eight, and nine also count as valid "digits".
 */
 
-public class day1 {
+public class Day1 {
 	public static void firstPart() {
 		BufferedReader reader;
 		int start = 0;

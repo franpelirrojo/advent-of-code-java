@@ -25,7 +25,7 @@ For each game, find the minimum set of cubes that must have been present.
 What is the sum of the power of these sets?
 */
 
-public class day2 {
+public class Day2 {
 	private static final int RED = 12;
 	private static final int GREEN = 13;
 	private static final int BLUE = 14;
