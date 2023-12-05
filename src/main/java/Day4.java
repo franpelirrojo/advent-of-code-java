@@ -9,27 +9,22 @@ public class Day4 {
 	PART TWO
 	 */
 	class Tree{
-		private ArrayList<Node> nodes = new ArrayList<>();;
 		private final Node root = new Node(0);
 
 		public Tree(HashMap<Integer, Integer> pointers) {
-			Node.setCache(pointers);
+			Node.setPointers(pointers);
 			for (int k = 1; k < pointers.size(); k++){
 				if (pointers.get(k) != 0){
-					Node node = new Node(k + 1, pointers.get(k + 1)); //build the next node
+					Node node = new Node(k, pointers.get(k)); //build the next node
 					node.setParent(root);
-					root.addChield(node);
-					add(node);
+					root.addChild(node);
 				}
 			}
 		}
 
-		public ArrayList<Integer> partTwo(){
-			ArrayList<Integer> frequency = root.getChieldsValues();
-		}
-
-		private void add(Node node){
-			nodes.add(node);
+		public int partTwo(){
+			root.getChieldsValues().forEach((k, v) -> System.out.println(k + ": " + v));
+			return 0;
 		}
 	}
 
@@ -37,20 +32,20 @@ public class Day4 {
 		private int value;
 		private Node parent;
 		private ArrayList<Node> chields = new ArrayList<>();
-		private static HashMap<Integer, Integer> cache;
+		private static HashMap<Integer, Integer> pointers;
 
 		public Node(int value){
 			this.value = value;
 		}
 
-		public Node(int value, int conections) {
+		public Node(int value, int connections) {
 			this.value = value;
 
-			for (int k = value + 1; k <= value + conections; k++){ //build the next node
-				if (!cache.get(k).equals(0)){
-					Node chield = new Node(k, cache.get(k));
+			for (int k = value + 1; k <= value + connections; k++){ //build the next node
+				if (!pointers.get(k).equals(0)){
+					Node chield = new Node(k, pointers.get(k));
 					chield.setParent(this);
-					addChield(chield);
+					addChild(chield);
 				}
 			}
 		}
@@ -59,22 +54,29 @@ public class Day4 {
 			return value;
 		}
 
-		public ArrayList<Integer> getChieldsValues() {
-			ArrayList<Integer> values = new ArrayList<>();
+		public HashMap<Integer, Integer> getChieldsValues() {
+			HashMap<Integer, Integer> values = new HashMap<>();
 			if (!chields.isEmpty()){
-				for (Node chield : chields){
+				for (Node child : chields){
+					HashMap<Integer, Integer> childValues = child.getChieldsValues();
+					childValues.forEach((k, v) ->{
+						if (values.containsKey(k)){
+							values.put(k, values.get(k) + v);
+						}
+					});
 				}
-			} else {
-				return null;
 			}
+
+			values.put(getValue(), values.get(getValue()) == null ? 1 : values.get(getValue()) + 1);
+			return values;
 		}
 
-		public void addChield(Node node){
+		public void addChild(Node node){
 			chields.add(node);
 		}
 
-		public static void setCache(HashMap<Integer, Integer> cache) {
-			Node.cache = cache;
+		public static void setPointers(HashMap<Integer, Integer> pointers) {
+			Node.pointers = pointers;
 		}
 
 		public void setParent(Node parent) {
@@ -126,7 +128,7 @@ public class Day4 {
 		}
 
 		Tree tree = new Tree(pointers);
-
+		System.out.println(tree.partTwo());
 		System.out.println(result);
 	}
 
